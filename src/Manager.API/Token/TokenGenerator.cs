@@ -83,7 +83,7 @@ namespace Manager.API.Token{
                 IsRevorked = false,
                 UserId = user.Id,
                 AddedDate = DateTime.UtcNow,
-                ExpiryDate = DateTime.UtcNow.AddMonths(6),
+                ExpiryDate = DateTime.UtcNow.AddDays(14),
                 Token = RandomString(35) + Guid.NewGuid()
             };
 

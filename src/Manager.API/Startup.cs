@@ -46,16 +46,16 @@ namespace Manager.API
         {
             #region Jwt
 
-            services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
+            //services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
 
             var secretKey = Encoding.ASCII.GetBytes(Configuration["Jwt:Key"]);
 
-            var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
+            //var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
 
             var tokenValidationParams = new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
+                IssuerSigningKey = new SymmetricSecurityKey(secretKey),
                 ValidateIssuer = false,
                 ValidateAudience = false,
                 ValidateLifetime = true,
