@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Manager.Infra.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,14 +12,10 @@ namespace Manager.API.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public RolesSetUp(
-            UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager
-
-        )
+            UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-
         }
 
         [HttpGet]

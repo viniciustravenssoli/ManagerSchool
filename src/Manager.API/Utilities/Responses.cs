@@ -8,7 +8,7 @@ namespace Manager.API.Utilities{
         {
             return new ResultViewModel
             {
-                Message = "Ocorreu algum erro interno na aplicaçao, por favor tente novamente",
+                Message = "Internal aplication error, please try again",
                 Success = false,
                 Data = null
             };
@@ -34,14 +34,35 @@ namespace Manager.API.Utilities{
             };
         }
 
-        public static ResultViewModel UnauthorizedErrorMessage()
+        public static ResultViewModel UserDoNotExists()
         {
             return new ResultViewModel
             {
-                Message = "A Combinaçao de login ou senha esta incorreta",
+                Message = "User does not exists, please check the email",
                 Success = false,
                 Data = null
             };
         }
+
+        public static ResultViewModel UnauthorizedErrorMessage()
+        {
+            return new ResultViewModel
+            {
+                Message = "Login or Password do not match",
+                Success = false,
+                Data = null
+            };
+        }
+
+        public static ResultViewModel InvalidPayloud()
+        {
+            return new ResultViewModel
+            {
+                Message = "Invalid Payloud",
+                Success = false,
+                Data = null
+            };
+        }
+
     }
 }

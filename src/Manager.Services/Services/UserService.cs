@@ -39,19 +39,6 @@ namespace Manager.Services.Services{
             return _mapper.Map<UserDTO>(userCreated);
         }
 
-        public async Task<UserDTO> Auth(string email, string password)
-        {
-            var user = await _userRepository.GetByEmail(email);
-
-            var hasedpassword = _hasher.Hash(password);
-
-            if (user.Password != hasedpassword)
-            {
-                return null;
-            }
-
-            return _mapper.Map<UserDTO>(user);
-        }
         
 
         public async Task<UserDTO> Get(long id)

@@ -9,11 +9,15 @@ using EscNet.IoC.Hashers;
 using Isopoh.Cryptography.Argon2;
 using Manager.API.Token;
 using Manager.API.ViewModels;
+using Manager.API.ViewModels.ClaS;
+using Manager.API.ViewModels.Teachers;
 using Manager.Domain.Entities;
 using Manager.Infra.Context;
 using Manager.Infra.Interfaces;
 using Manager.Infra.Repositiries;
+using Manager.Infra.Repositories;
 using Manager.Services.DTO;
+using Manager.Services.Interface;
 using Manager.Services.Interfaces;
 using Manager.Services.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -81,14 +85,25 @@ namespace Manager.API
 
             #region AutoMapper
 
-            // var AutoMapperConfig = new MapperConfiguration(cfg =>
-            // {
-            //     cfg.CreateMap<User, UserDTO>().ReverseMap();
-            //     cfg.CreateMap<CreateUserViewModel, UserDTO>().ReverseMap();
-            //     cfg.CreateMap<UpdateUserViewModel, UserDTO>().ReverseMap();
-            // });
+            var AutoMapperConfig = new MapperConfiguration(cfg =>
+            {
+                // cfg.CreateMap<User, UserDTO>().ReverseMap();
+                // cfg.CreateMap<CreateUserViewModel, UserDTO>().ReverseMap();
+                // cfg.CreateMap<UpdateUserViewModel, UserDTO>().ReverseMap();
+                cfg.CreateMap<Student, StudentDTO>().ReverseMap();
+                cfg.CreateMap<CreateStudentViewModel, StudentDTO>().ReverseMap();
+                cfg.CreateMap<UpdateStudentViewModel, StudentDTO>().ReverseMap();
 
-            // services.AddSingleton(AutoMapperConfig.CreateMapper());
+                cfg.CreateMap<Teacher, TeacherDTO>().ReverseMap();
+                cfg.CreateMap<CreateTeacherViewModel, TeacherDTO>().ReverseMap();
+                cfg.CreateMap<UpdateTeacherViewModel, TeacherDTO>().ReverseMap();
+
+                cfg.CreateMap<Class, ClassDTO>().ReverseMap();
+                cfg.CreateMap<CreateClassViewModel, ClassDTO>().ReverseMap();
+                cfg.CreateMap<UpdateClassViewModel, ClassDTO>().ReverseMap();
+            });
+
+            services.AddSingleton(AutoMapperConfig.CreateMapper());
 
             #endregion
 
@@ -97,11 +112,20 @@ namespace Manager.API
             services.AddSingleton(d => Configuration);
             services.AddDbContext<ManagerContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:USER_MANAGER"]), ServiceLifetime.Transient);
             services.AddScoped<ITokenGenerator, TokenGenerator>();
+
+            services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+
+            services.AddScoped<ITeacherRepository, TeacherRepository>();
+            services.AddScoped<ITeacherService, TeacherService>();
+
+            services.AddScoped<IClassRepository, ClassRepository>();
+            services.AddScoped<IClassService, ClassService>();
+
             services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                         .AddEntityFrameworkStores<ManagerContext>();
 
             #endregion
-
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -110,7 +134,7 @@ namespace Manager.API
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
-                    Description = "Por favor utlize Bearer <TOKEN>",
+                    Description = "Please use Bearer <TOKEN>",
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey
                 });

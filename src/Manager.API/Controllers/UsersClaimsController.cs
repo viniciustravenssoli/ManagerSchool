@@ -1,7 +1,5 @@
-
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Manager.Infra.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 

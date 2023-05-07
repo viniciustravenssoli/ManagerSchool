@@ -10,7 +10,5 @@ namespace Manager.Infra.Interfaces{
 
         Task<List<User>> SearchByName(string name);
 
-        Task<User> Auth(string email, string password);
-
     }
 }

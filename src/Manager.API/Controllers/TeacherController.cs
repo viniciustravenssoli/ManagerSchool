@@ -1,46 +1,47 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Manager.API.ViewModels;
-using Manager.Core.Exceptions;
-using Microsoft.AspNetCore.Mvc;
-using Manager.Services.Interfaces;
 using AutoMapper;
-using Manager.Services.DTO;
 using Manager.API.Utilities;
+using Manager.API.ViewModels;
+using Manager.API.ViewModels.Teachers;
+using Manager.Core.Exceptions;
+using Manager.Services.DTO;
+using Manager.Services.Interface;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Manager.API.Controllers
 {
-
+    //[Authorize]
     [ApiController]
-    public class UserController : ControllerBase
+    public class TeacherController : ControllerBase
     {
-
-        private readonly IUserService _userService;
+        private readonly ITeacherService _teacherService;
         private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IMapper mapper)
+        public TeacherController(ITeacherService teacherservice, IMapper mapper)
         {
-            _userService = userService;
+            _teacherService = teacherservice;
             _mapper = mapper;
         }
 
         [HttpPost]
-        //[Authorize]
-        [Route("/api/v1/users/create")]
+        [Route("/api/v1/teachers/create")]
 
-        public async Task<IActionResult> Create([FromBody] CreateUserViewModel userViewModel)
+        public async Task<IActionResult> Create([FromBody] CreateTeacherViewModel teacherViewModel)
         {
             try
             {
-                var userDTO = _mapper.Map<UserDTO>(userViewModel);
-                var userCreated = await _userService.Create(userDTO);
+                var teacherDTO = _mapper.Map<TeacherDTO>(teacherViewModel);
+                var teacherCreated = await _teacherService.Create(teacherDTO);
 
                 return Ok(new ResultViewModel
                 {
-                    Message = "Usuario criado com sucesso",
+                    Message = "Aluno criado com sucesso",
                     Success = true,
-                    Data = userCreated
+                    Data = teacherCreated
                 });
             }
             catch (DomainException ex)
@@ -54,22 +55,21 @@ namespace Manager.API.Controllers
         }
 
         [HttpPut]
-        //[Authorize]
-        [Route("/api/v1/users/update")]
+        [Route("/api/v1/teachers/update")]
 
-        public async Task<IActionResult> Update([FromBody] UpdateUserViewModel userViewModel)
+        public async Task<IActionResult> Update([FromBody] UpdateTeacherViewModel updateTeacherViewModel)
         {
             try
             {
-                var userDTO = _mapper.Map<UserDTO>(userViewModel);
+                var teacherDTO = _mapper.Map<TeacherDTO>(updateTeacherViewModel);
 
-                var userUpdated = await _userService.Update(userDTO);
+                var teacherUpdated = await _teacherService.Update(teacherDTO);
 
                 return Ok(new ResultViewModel
                 {
                     Message = "Usuario atualizado om sucesso!",
                     Success = true,
-                    Data = userUpdated
+                    Data = teacherUpdated
                 });
             }
             catch (DomainException ex)
@@ -83,18 +83,27 @@ namespace Manager.API.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
-        [Route("/api/v1/users/remove")]
+        [Route("/api/v1/teachers/remove")]
 
         public async Task<IActionResult> Remove(long id)
         {
             try
             {
-                await _userService.Remove(id);
+                var teacherExists = await _teacherService.Get(id);
+
+                if (teacherExists == null)
+                    return Ok(new ResultViewModel
+                    {
+                        Message = "Aluno não encontrado!",
+                        Success = false,
+                        Data = null
+                    });
+
+                await _teacherService.Remove(id);
 
                 return Ok(new ResultViewModel
                 {
-                    Message = "Usuario removido om sucesso!",
+                    Message = "Aluno removido om sucesso!",
                     Success = true,
                     Data = null
                 });
@@ -110,28 +119,27 @@ namespace Manager.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-        [Route("/api/v1/users/get/{id}")]
+        [Route("/api/v1/teachers/get/{id}")]
 
         public async Task<IActionResult> Get(long id)
         {
             try
             {
-                var user = await _userService.Get(id);
+                var teacher = await _teacherService.Get(id);
 
-                if (user == null)
+                if (teacher == null)
                     return Ok(new ResultViewModel
                     {
                         Message = "Usuario não encontrado!",
                         Success = true,
-                        Data = user
+                        Data = teacher
                     });
 
                 return Ok(new ResultViewModel
                 {
                     Message = "Usuario encontrado om sucesso!",
                     Success = true,
-                    Data = user
+                    Data = teacher
                 });
             }
             catch (DomainException ex)
@@ -145,21 +153,20 @@ namespace Manager.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-        [Route("/api/v1/users/get-all")]
+        [Route("/api/v1/teachers/get-all")]
 
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var allUsers = await _userService.Get();
+                var allTeachers = await _teacherService.Get();
                 
 
                 return Ok(new ResultViewModel
                 {
                     Message = "Usuarios encontrados om sucesso!",
                     Success = true,
-                    Data = allUsers
+                    Data = allTeachers
                 });
             }
             catch (DomainException ex)
@@ -173,28 +180,27 @@ namespace Manager.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-        [Route("/api/v1/users/get-by-email")]
+        [Route("/api/v1/teachers/get-by-email")]
 
         public async Task<IActionResult> GetByEmail([FromQuery] string email)
         {
             try
             {
-                var user = await _userService.GetByEmail(email);
+                var teacher = await _teacherService.GetByEmail(email);
 
-                if (user == null)
+                if (teacher == null)
                     return Ok(new ResultViewModel
                     {
                         Message = "Nenhum Usuario encontrado com esse email!",
                         Success = true,
-                        Data = user
+                        Data = teacher
                     });
 
                 return Ok(new ResultViewModel
                 {
                     Message = "Usuario encontrado com sucesso!",
                     Success = true,
-                    Data = user
+                    Data = teacher
                 });
             }
             catch (DomainException ex)
@@ -209,16 +215,15 @@ namespace Manager.API.Controllers
 
 
         [HttpGet]
-        [Authorize]
-        [Route("/api/v1/users/search-by-name")]
+        [Route("/api/v1/teachers/search-by-name")]
 
         public async Task<IActionResult> SearchByName([FromQuery] string name)
         {
             try
             {
-                var allUsers = await _userService.SearchByName(name);
+                var allTeachers = await _teacherService.SearchByName(name);
 
-                if (allUsers.Count == 0)
+                if (allTeachers.Count == 0)
                     return Ok(new ResultViewModel
                     {
                         Message = "Nenhum Usuario encontrado com esse nome!",
@@ -230,7 +235,7 @@ namespace Manager.API.Controllers
                 {
                     Message = "Usuario encontrado com sucesso!",
                     Success = true,
-                    Data = allUsers
+                    Data = allTeachers
                 });
             }
             catch (DomainException ex)
@@ -244,16 +249,15 @@ namespace Manager.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-        [Route("/api/v1/users/search-by-email")]
+        [Route("/api/v1/teachers/search-by-email")]
 
         public async Task<IActionResult> SearchByEmail([FromQuery] string email)
         {
             try
             {
-                var allUsers = await _userService.SearchByEmail(email);
+                var allTeachers = await _teacherService.SearchByEmail(email);
 
-                if (allUsers.Count == 0)
+                if (allTeachers.Count == 0)
                     return Ok(new ResultViewModel
                     {
                         Message = "Nenhum Usuario encontrado com esse email!",
@@ -265,7 +269,7 @@ namespace Manager.API.Controllers
                 {
                     Message = "Usuario encontrado com sucesso!",
                     Success = true,
-                    Data = allUsers
+                    Data = allTeachers
                 });
             }
             catch (DomainException ex)
@@ -277,6 +281,5 @@ namespace Manager.API.Controllers
                 return StatusCode(500, Responses.ApplicationErrorMessage());
             }
         }
-
     }
 }

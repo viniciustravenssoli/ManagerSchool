@@ -1,4 +1,5 @@
 using Manager.Domain.Entities;
+using Manager.Infra.Mappings;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,9 +22,16 @@ namespace Manager.Infra.Context
 
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
+        public virtual DbSet<Student> Students { get; set; }
+
+        public virtual DbSet<Teacher> Teachers { get; set; }
+
+        public virtual DbSet<Class> Classes { get; set; }
+
         //    protected override void OnModelCreating(ModelBuilder builder)
         //    {
-        //     builder.ApplyConfiguration(new UserMap());
+        //     builder.ApplyConfiguration(new StudentMap());
+        //     base.OnModelCreating(builder);
         //    }
     }
 }

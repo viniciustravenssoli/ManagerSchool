@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Manager.API.Token;
@@ -42,7 +41,7 @@ namespace Manager.API.Controllers
                     {
                         return BadRequest(new ResultViewModel()
                         {
-                            Message = "Email already exists",
+                            Message = "Email already in use",
                             Success = false,
                             Data = null
                         });
@@ -60,22 +59,16 @@ namespace Manager.API.Controllers
 
                         return Ok(jwtToken);
                     }
-                    else
-                    {
+                    
                         return BadRequest(new RegistrationResponse()
                         {
                             Errors = isCreated.Errors.Select(x => x.Description).ToList(),
                             Success = false
                         });
-                    }
+                    
                 }
 
-                return BadRequest(new ResultViewModel()
-                {
-                    Message = "Invalid payload",
-                    Success = false,
-                    Data = null
-                });
+                return BadRequest(Responses.InvalidPayloud());
             }
             catch (DomainException ex)
             {
@@ -101,24 +94,14 @@ namespace Manager.API.Controllers
 
                     if (existingUser == null)
                     {
-                        return BadRequest(new ResultViewModel()
-                        {
-                            Message = "Invalid login resquest, please check email and passoword",
-                            Success = false,
-                            Data = null
-                        });
+                        return StatusCode(401, Responses.UnauthorizedErrorMessage());
                     }
 
                     var isCorrect = await _userManager.CheckPasswordAsync(existingUser, user.Password);
 
                     if (!isCorrect)
                     {
-                        return BadRequest(new ResultViewModel()
-                        {
-                            Message = "Invalid login resquest, please check email and passoword",
-                            Success = false,
-                            Data = null
-                        });
+                        return StatusCode(401, Responses.UnauthorizedErrorMessage());
                     }
 
                     var jwtToken = await _tokenGenerator.GenerateJwtToken(existingUser);
@@ -126,12 +109,7 @@ namespace Manager.API.Controllers
                     return Ok(jwtToken);
                 }
 
-                return BadRequest(new ResultViewModel()
-                {
-                    Message = "Invalid Payload!",
-                    Success = false,
-                    Data = null
-                });
+                return BadRequest(Responses.InvalidPayloud());
             }
             catch (DomainException ex)
             {
@@ -141,8 +119,6 @@ namespace Manager.API.Controllers
             {
                 return StatusCode(500, Responses.ApplicationErrorMessage());
             }
-
-
         }
 
         [HttpPost]
@@ -155,23 +131,13 @@ namespace Manager.API.Controllers
 
                 if (result == null)
                 {
-                    return BadRequest(new ResultViewModel()
-                    {
-                        Message = "Invalid Payload!",
-                        Success = false,
-                        Data = null
-                    });
+                    return BadRequest(Responses.InvalidPayloud());
                 }
 
                 return Ok(result);
             }
 
-            return BadRequest(new ResultViewModel()
-            {
-                Message = "Invalid Payload!",
-                Success = false,
-                Data = null
-            });
+            return BadRequest(Responses.InvalidPayloud());
         }
     }
 }

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Manager.API.ViewModels{
-    public class CreateUserViewModel{
-
+    public class CreateUserViewModel
+    {
         [Required(ErrorMessage = "O nome nao pode ser vazio")]
         [MinLength(3, ErrorMessage = "O nome deve ter no minomo 3 caracteres")]
         [MaxLength(80, ErrorMessage = "O Nome nao pode ter mais de 80 caracteres")]
