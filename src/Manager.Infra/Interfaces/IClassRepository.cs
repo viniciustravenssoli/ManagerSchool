@@ -8,9 +8,13 @@ namespace Manager.Infra.Interfaces
 {
     public interface IClassRepository : IBaseRepository<Class>
     {
-        Task<List<Class>> GetClassesWithRelatedTeacher();
+        Task<List<Class>> GetClassesWithRelatedTeacher(long teacherId);
 
         Task<Class> GetByCode(int code);
+
+        Task<Class> Createe(Class classToCreate);
+
+        Task<List<Class>> GetAllClasses();
 
     }
 }

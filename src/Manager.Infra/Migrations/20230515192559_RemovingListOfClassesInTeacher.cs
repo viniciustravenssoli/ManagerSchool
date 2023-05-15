@@ -2,7 +2,7 @@
 
 namespace Manager.Infra.Migrations
 {
-    public partial class addingfrommodelBuilderValueGeneratedADD : Migration
+    public partial class RemovingListOfClassesInTeacher : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

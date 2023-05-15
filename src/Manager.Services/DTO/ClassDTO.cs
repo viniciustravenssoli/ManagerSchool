@@ -8,13 +8,13 @@ namespace Manager.Services.DTO
 {
     public class ClassDTO
     {
-        public long Id { get; set;}
-        public int ClassCode { get; set;}
-        public string ProfessorCpf {get; set;}
-        public Teacher Teacher { get; set; }
-        public string Discipline { get; set;}
-        public DateTime Schedule { get; set;}
-        public double Price { get; set;}
+        public long Id { get; set; }
+        public string Discipline { get; set; }
+        public int ClassCode { get; set; }
+        public double Price { get; set; }
+        public DateTime Schedule { get; set; }
         public DateTime CreatedAt { get; set; }
+        public long TeacherId { get; set; }
+        public Teacher Teacher { get; set; }
     }
 }

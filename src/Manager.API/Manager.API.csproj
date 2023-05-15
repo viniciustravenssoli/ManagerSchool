@@ -12,6 +12,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.17">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
@@ -20,6 +25,7 @@
     <ProjectReference Include="..\Manager.Services\Manager.Services.csproj" />
     <ProjectReference Include="..\Manager.Infra\Manager.Infra.csproj" />
     <ProjectReference Include="..\Manager.Core\Manager.Core.csproj" />
+    <ProjectReference Include="..\Manager.Identity\Manager.Identity.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,7 +15,7 @@ namespace Manager.API.ViewModels.ClaS
         [Required(ErrorMessage = "O cpf nao pode ser vazio")]
         [MinLength(11, ErrorMessage = "O cpf deve conter exatamente 11 caracteres")]
         [MaxLength(11, ErrorMessage = "O cpf deve conter exatamente 11 caracteres")]
-        public string ProfessorCpf { get; set; }
+        public string TeacherId { get; set; }
         public string Teacher { get; set; }
         public string Discipline { get; set; }
         public double Price { get; set; }

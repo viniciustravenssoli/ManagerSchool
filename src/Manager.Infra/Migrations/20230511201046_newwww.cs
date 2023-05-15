@@ -2,7 +2,7 @@
 
 namespace Manager.Infra.Migrations
 {
-    public partial class AddingEntityStudentsmapping : Migration
+    public partial class newwww : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

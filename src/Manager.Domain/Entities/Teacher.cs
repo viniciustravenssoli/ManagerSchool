@@ -17,6 +17,8 @@ namespace Manager.Domain.Entities
 
         public DateTime CreatedAt { get;  private set; }
 
+        //public List<Class> Classes { get; set;}
+
         protected Teacher() { }
 
         public Teacher(string name, string phone, string email, string cpf, DateTime createdAt)

@@ -35,11 +35,11 @@ namespace Manager.API.Controllers
             try
             {
                 var classDTO = _mapper.Map<ClassDTO>(createclassViewModel);
-                var classCreated = await _classService.Create(classDTO);
+                var classCreated = await _classService.Createe(classDTO);
 
                 return Ok(new ResultViewModel
                 {
-                    Message = "Aluno criado com sucesso",
+                    Message = "Class created with success",
                     Success = true,
                     Data = classCreated
                 });
@@ -48,10 +48,10 @@ namespace Manager.API.Controllers
             {
                 return BadRequest(Responses.DomainErrorMessage(ex.Message, ex.Errors));
             }
-            // catch (Exception)
-            // {
-            //     return StatusCode(500, Responses.ApplicationErrorMessage());
-            // }
+            catch (Exception)
+            {
+                return StatusCode(500, Responses.ApplicationErrorMessage());
+            }
         }
 
         [HttpPut]
@@ -67,7 +67,7 @@ namespace Manager.API.Controllers
 
                 return Ok(new ResultViewModel
                 {
-                    Message = "Usuario atualizado om sucesso!",
+                    Message = "Class updated with success!",
                     Success = true,
                     Data = teacherUpdated
                 });
@@ -94,7 +94,7 @@ namespace Manager.API.Controllers
                 if (teacherExists == null)
                     return Ok(new ResultViewModel
                     {
-                        Message = "Aluno não encontrado!",
+                        Message = "Class not found!",
                         Success = false,
                         Data = null
                     });
@@ -103,7 +103,7 @@ namespace Manager.API.Controllers
 
                 return Ok(new ResultViewModel
                 {
-                    Message = "Aluno removido om sucesso!",
+                    Message = "Class was removed with success!",
                     Success = true,
                     Data = null
                 });
@@ -130,14 +130,14 @@ namespace Manager.API.Controllers
                 if (teacher == null)
                     return Ok(new ResultViewModel
                     {
-                        Message = "Usuario não encontrado!",
+                        Message = "Class not found!",
                         Success = true,
                         Data = teacher
                     });
 
                 return Ok(new ResultViewModel
                 {
-                    Message = "Usuario encontrado om sucesso!",
+                    Message = "Class found with success!",
                     Success = true,
                     Data = teacher
                 });
@@ -153,7 +153,7 @@ namespace Manager.API.Controllers
         }
 
         [HttpGet]
-        [Route("/api/v1/classes/get-all")]
+        [Route("/api/v1/classes/get-all-generic")]
 
         public async Task<IActionResult> GetAll()
         {
@@ -177,6 +177,59 @@ namespace Manager.API.Controllers
             {
                 return StatusCode(500, Responses.ApplicationErrorMessage());
             }
-        }       
+        }
+
+        [HttpGet]
+        [Route("/api/v1/classes/get-all-classes")]
+
+        public async Task<IActionResult> GetAllClasses()
+        {
+            try
+            {
+                var allTeachers = await _classService.GetAllClasses();
+
+
+                return Ok(new ResultViewModel
+                {
+                    Message = "Usuarios encontrados om sucesso!",
+                    Success = true,
+                    Data = allTeachers
+                });
+            }
+            catch (DomainException ex)
+            {
+                return BadRequest(Responses.DomainErrorMessage(ex.Message, ex.Errors));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, Responses.ApplicationErrorMessage());
+            }
+        }
+        [HttpGet]
+        [Route("/api/v1/classes/get-class-with-realeted-teacher")]
+
+        public async Task<IActionResult> GetClassWithRelatedTeacher(long teacherId)
+        {
+            try
+            {
+                var allTeachers = await _classService.GetClassWithTeacher(teacherId);
+
+
+                return Ok(new ResultViewModel
+                {
+                    Message = "Usuarios encontrados om sucesso!",
+                    Success = true,
+                    Data = allTeachers
+                });
+            }
+            catch (DomainException ex)
+            {
+                return BadRequest(Responses.DomainErrorMessage(ex.Message, ex.Errors));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, Responses.ApplicationErrorMessage());
+            }
+        }     
     }
 }

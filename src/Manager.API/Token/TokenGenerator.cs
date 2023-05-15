@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Manager.Domain.Entities;
+using Manager.Identity.Data;
 using Manager.Infra.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ namespace Manager.API.Token{
     {
         private readonly IConfiguration _configuration;
 
-        private readonly ManagerContext _context;
+        private readonly IdentityDataContext _context;
 
         private readonly RoleManager<IdentityRole> _roleManager;
 
@@ -25,7 +26,7 @@ namespace Manager.API.Token{
 
         private readonly UserManager<IdentityUser> _userManager;
 
-        public TokenGenerator(IConfiguration configuration, ManagerContext context, RoleManager<IdentityRole> roleManager, TokenValidationParameters tokenValidationParams, UserManager<IdentityUser> userManager)
+        public TokenGenerator(IConfiguration configuration, IdentityDataContext context, RoleManager<IdentityRole> roleManager, TokenValidationParameters tokenValidationParams, UserManager<IdentityUser> userManager)
         {
             _configuration = configuration;
             _context = context;
@@ -87,7 +88,7 @@ namespace Manager.API.Token{
                 Token = RandomString(35) + Guid.NewGuid()
             };
 
-            await _context.RefreshTokens.AddAsync(refreshToken);
+            //await _context.RefreshTokens.AddAsync(refreshToken);
             await _context.SaveChangesAsync();
 
             return new AuthResult()

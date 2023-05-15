@@ -18,6 +18,12 @@ namespace Manager.Services.Interface
 
         Task Remove(long id);
 
+        Task<List<ClassDTO>> GetClassWithTeacher(long teacherId);
+
+        Task<ClassDTO> Createe(ClassDTO classDTO);
+
+        Task<List<ClassDTO>> GetAllClasses();
+
         
     }
 }

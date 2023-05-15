@@ -19,16 +19,33 @@ namespace Manager.Infra.Repositories
             _context = context;
         }
 
-        public async Task<List<Class>> GetClassesWithRelatedTeacher()
+        public async Task<List<Class>> GetClassesWithRelatedTeacher(long teacherId)
         {
-            var Classes = await _context.Classes.Include(t => t.Teacher).AsNoTracking().ToListAsync();
+            var Class = await _context.Classes
+                                .Where
+                                (
+                                    x => x.TeacherId == teacherId
+                                )
+                                .ToListAsync();
 
-            return Classes;
+            return Class;
+        }
+
+        public async Task<List<Class>> GetAllClasses()
+        {
+            var Class = await _context.Classes
+                                .Include
+                                (
+                                    x => x.Teacher
+                                )
+                                .ToListAsync();
+
+            return Class;
         }
 
         public async Task<Class> GetByCode(int code)
         {
-            var student = await _context.Classes
+            var classes = await _context.Classes
                             .Where
                             (
                                 x => x.ClassCode == code
@@ -36,7 +53,17 @@ namespace Manager.Infra.Repositories
                             .AsNoTracking()
                             .ToListAsync();
 
-            return student.FirstOrDefault();
+            return classes.FirstOrDefault();
+        }
+
+        public async Task<Class> Createe(Class classToCreate)
+        {
+            var teacherExists = await _context.Teachers.FindAsync(classToCreate.TeacherId);
+            classToCreate.Teacher = teacherExists;
+            _context.Classes.Add(classToCreate);
+            await _context.SaveChangesAsync();
+
+            return classToCreate;
         }
     }
 }

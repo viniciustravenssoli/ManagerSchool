@@ -4,14 +4,16 @@ using Manager.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Manager.Infra.Migrations
 {
     [DbContext(typeof(ManagerContext))]
-    partial class ManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20230510202138_new")]
+    partial class @new
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,10 +47,13 @@ namespace Manager.Infra.Migrations
                         .HasColumnType("float")
                         .HasColumnName("price");
 
+                    b.Property<long>("ProfessorId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("Schedule")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("TeacherId")
+                    b.Property<long?>("TeacherId")
                         .HasColumnType("BIGINT");
 
                     b.HasKey("Id");
@@ -170,12 +175,15 @@ namespace Manager.Infra.Migrations
             modelBuilder.Entity("Manager.Domain.Entities.Class", b =>
                 {
                     b.HasOne("Manager.Domain.Entities.Teacher", "Teacher")
-                        .WithMany()
-                        .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Classes")
+                        .HasForeignKey("TeacherId");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("Manager.Domain.Entities.Teacher", b =>
+                {
+                    b.Navigation("Classes");
                 });
 #pragma warning restore 612, 618
         }

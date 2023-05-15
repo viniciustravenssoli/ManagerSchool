@@ -14,6 +14,6 @@ namespace Manager.Infra.Interfaces
 
         Task<List<Teacher>> SearchByName(string name);
 
-        Task<Teacher> GetByCpf(string cpf);
+        Task<Teacher> GetById(long id);
     }
 }

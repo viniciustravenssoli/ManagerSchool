@@ -12,6 +12,7 @@ using Manager.API.ViewModels;
 using Manager.API.ViewModels.ClaS;
 using Manager.API.ViewModels.Teachers;
 using Manager.Domain.Entities;
+using Manager.Identity.Data;
 using Manager.Infra.Context;
 using Manager.Infra.Interfaces;
 using Manager.Infra.Repositiries;
@@ -111,6 +112,7 @@ namespace Manager.API
 
             services.AddSingleton(d => Configuration);
             services.AddDbContext<ManagerContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:USER_MANAGER"]), ServiceLifetime.Transient);
+            services.AddDbContext<IdentityDataContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:USER_MANAGER"]), ServiceLifetime.Transient);
             services.AddScoped<ITokenGenerator, TokenGenerator>();
 
             services.AddScoped<IStudentService, StudentService>();
@@ -122,8 +124,10 @@ namespace Manager.API
             services.AddScoped<IClassRepository, ClassRepository>();
             services.AddScoped<IClassService, ClassService>();
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-                        .AddEntityFrameworkStores<ManagerContext>();
+            services.AddDefaultIdentity<IdentityUser>()
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<IdentityDataContext>()
+                .AddDefaultTokenProviders();
 
             #endregion
 

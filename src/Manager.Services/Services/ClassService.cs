@@ -24,18 +24,34 @@ namespace Manager.Services.Services
 
         public async Task<ClassDTO> Create(ClassDTO classDTO)
         {
-           var classExists = await _classRepository.GetByCode(classDTO.ClassCode);
-           var teacherExists = await _teacherRepository.GetByCpf(classDTO.ProfessorCpf);
+            var classExists = await _classRepository.GetByCode(classDTO.ClassCode);
 
-           //classDTO.Teacher.Id = teacherExists.Id;
-
-            if(classExists != null)
+            if (classExists != null)
                 throw new DomainException("Já existe uma classe cadastrada com esse codigo");
 
             var clas = _mapper.Map<Class>(classDTO);
             //student.Validate();
 
             var classCreated = await _classRepository.Create(clas);
+
+            return _mapper.Map<ClassDTO>(classCreated);
+        }
+
+        public async Task<ClassDTO> Createe(ClassDTO classDTO)
+        {
+            var classExists = await _classRepository.GetByCode(classDTO.ClassCode);
+            var teacherExists = await _teacherRepository.GetById(classDTO.TeacherId);
+
+            if (classExists != null)
+                throw new DomainException("Já existe uma classe cadastrada com esse codigo");
+
+            var clas = _mapper.Map<Class>(classDTO);
+            //student.Validate();
+
+            var classCreated = await _classRepository.Createe(clas);
+
+            //removing object cycling 
+            classCreated.Teacher = teacherExists;
 
             return _mapper.Map<ClassDTO>(classCreated);
         }
@@ -52,6 +68,20 @@ namespace Manager.Services.Services
             var allStudents = await _classRepository.Get();
 
             return _mapper.Map<List<ClassDTO>>(allStudents);
+        }
+
+        public async Task<List<ClassDTO>> GetAllClasses()
+        {
+            var allStudents = await _classRepository.GetAllClasses();
+
+            return _mapper.Map<List<ClassDTO>>(allStudents);
+        }
+
+        public async Task<List<ClassDTO>> GetClassWithTeacher(long teacherId)
+        {
+            var allClasses = await _classRepository.GetClassesWithRelatedTeacher(teacherId);
+
+            return _mapper.Map<List<ClassDTO>>(allClasses);
         }
 
         public async Task Remove(long id)

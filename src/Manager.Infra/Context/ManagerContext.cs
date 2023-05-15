@@ -1,3 +1,4 @@
+using System.Reflection;
 using Manager.Domain.Entities;
 using Manager.Infra.Mappings;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -5,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Manager.Infra.Context
 {
-    public class ManagerContext : IdentityDbContext
+    public class ManagerContext : DbContext
     {
         public ManagerContext()
         { }
@@ -20,7 +21,7 @@ namespace Manager.Infra.Context
 
         //    public virtual DbSet<User> Users { get; set; }
 
-        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+        // public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public virtual DbSet<Student> Students { get; set; }
 
@@ -28,10 +29,9 @@ namespace Manager.Infra.Context
 
         public virtual DbSet<Class> Classes { get; set; }
 
-        //    protected override void OnModelCreating(ModelBuilder builder)
-        //    {
-        //     builder.ApplyConfiguration(new StudentMap());
-        //     base.OnModelCreating(builder);
-        //    }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
     }
 }

@@ -36,9 +36,9 @@ namespace Manager.Services.Services
             return _mapper.Map<TeacherDTO>(teacherCreated);
         }
 
-        public async Task<TeacherDTO> GetByCpf(string cpf)
+        public async Task<TeacherDTO> GetById(long id)
         {
-            var teacher = await _teacherRepository.GetByCpf(cpf);
+            var teacher = await _teacherRepository.GetById(id);
 
             return _mapper.Map<TeacherDTO>(teacher);
         }

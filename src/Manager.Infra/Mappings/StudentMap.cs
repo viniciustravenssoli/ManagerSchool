@@ -1,5 +1,6 @@
 using Manager.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Manager.Infra.Mappings{
@@ -12,7 +13,8 @@ namespace Manager.Infra.Mappings{
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                .UseIdentityColumn()
+                .IsRequired()
+                .ValueGeneratedOnAdd()
                 .HasColumnType("BIGINT");
 
             builder.Property(x => x.Name)

@@ -56,11 +56,11 @@ namespace Manager.Infra.Repositories
             return teachers;
         }
 
-        public async Task<Teacher> GetByCpf(string cpf)
+        public async Task<Teacher> GetById(long id)
         {
             var obj = await _context.Teachers
                     .AsNoTracking()
-                    .Where(x => x.Cpf == cpf)
+                    .Where(x => x.Id == id)
                     .ToListAsync();
 
             return obj.FirstOrDefault();

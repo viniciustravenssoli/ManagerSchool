@@ -16,7 +16,7 @@ namespace Manager.Services.Interface
         Task<List<TeacherDTO>> SearchByName(string name);
         Task<List<TeacherDTO>> SearchByEmail(string email);
         Task<TeacherDTO> GetByEmail(string email);
-        Task<TeacherDTO> GetByCpf(string cpf);
+        Task<TeacherDTO> GetById(long id);
 
     }
 }

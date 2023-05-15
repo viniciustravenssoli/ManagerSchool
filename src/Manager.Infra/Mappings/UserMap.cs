@@ -12,7 +12,7 @@ namespace Manager.Infra.Mappings{
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Id)
-                .UseIdentityColumn()
+                //.UseIdentityColumn()
                 .HasColumnType("BIGINT");
 
             builder.Property(x => x.Name)
