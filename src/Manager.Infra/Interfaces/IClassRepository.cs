@@ -14,7 +14,7 @@ namespace Manager.Infra.Interfaces
 
         Task<Class> Createe(Class classToCreate);
 
-        Task<List<Class>> GetAllClasses();
+        Task<List<Class>> GetAllClasses(int skip, int take);
 
     }
 }

@@ -20,10 +20,10 @@ namespace Sistema_Escolar.Validations
                 
             if (teacher == null || student == null)
             {
-                //sucesso
+                //sucess
                 return ValidationResult.Success;
             }
-            //erro
+            //error
             return new ValidationResult("O CPF já está em uso!");
         }
     }

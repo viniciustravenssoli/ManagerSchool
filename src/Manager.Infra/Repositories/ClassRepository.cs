@@ -31,13 +31,15 @@ namespace Manager.Infra.Repositories
             return Class;
         }
 
-        public async Task<List<Class>> GetAllClasses()
+        public async Task<List<Class>> GetAllClasses(int skip , int take)
         {
             var Class = await _context.Classes
                                 .Include
                                 (
                                     x => x.Teacher
                                 )
+                                .Skip(skip)
+                                .Take(take)
                                 .ToListAsync();
 
             return Class;

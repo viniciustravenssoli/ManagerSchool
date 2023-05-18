@@ -22,7 +22,7 @@ namespace Manager.Services.Interface
 
         Task<ClassDTO> Createe(ClassDTO classDTO);
 
-        Task<List<ClassDTO>> GetAllClasses();
+        Task<List<ClassDTO>> GetAllClasses(int skip, int take);
 
         
     }

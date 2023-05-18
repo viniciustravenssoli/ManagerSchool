@@ -182,11 +182,11 @@ namespace Manager.API.Controllers
         [HttpGet]
         [Route("/api/v1/classes/get-all-classes")]
 
-        public async Task<IActionResult> GetAllClasses()
+        public async Task<IActionResult> GetAllClasses(int skip, int take)
         {
             try
             {
-                var allTeachers = await _classService.GetAllClasses();
+                var allTeachers = await _classService.GetAllClasses(skip, take);
 
 
                 return Ok(new ResultViewModel

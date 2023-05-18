@@ -70,9 +70,9 @@ namespace Manager.Services.Services
             return _mapper.Map<List<ClassDTO>>(allStudents);
         }
 
-        public async Task<List<ClassDTO>> GetAllClasses()
+        public async Task<List<ClassDTO>> GetAllClasses(int skip, int take)
         {
-            var allStudents = await _classRepository.GetAllClasses();
+            var allStudents = await _classRepository.GetAllClasses(skip, take);
 
             return _mapper.Map<List<ClassDTO>>(allStudents);
         }
