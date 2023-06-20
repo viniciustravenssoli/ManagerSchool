@@ -8,11 +8,13 @@ using AutoMapper;
 using Manager.Services.DTO;
 using Manager.API.Utilities;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Manager.API.Controllers
 {
 
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Admin" )]
     public class UserController : ControllerBase
     {
 

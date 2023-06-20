@@ -88,7 +88,7 @@ namespace Manager.API.Token{
                 Token = RandomString(35) + Guid.NewGuid()
             };
 
-            //await _context.RefreshTokens.AddAsync(refreshToken);
+            await _context.RefreshTokens.AddAsync(refreshToken);
             await _context.SaveChangesAsync();
 
             return new AuthResult()
@@ -223,6 +223,7 @@ namespace Manager.API.Token{
                 // update current token 
 
                 storedToken.IsUsed = true;
+                //todo: remove direct db connection from API
                 _context.RefreshTokens.Update(storedToken);
                 await _context.SaveChangesAsync();
 

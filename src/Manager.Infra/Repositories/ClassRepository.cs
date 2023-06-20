@@ -22,16 +22,21 @@ namespace Manager.Infra.Repositories
         public async Task<List<Class>> GetClassesWithRelatedTeacher(long teacherId)
         {
             var Class = await _context.Classes
+                                .Include
+                                (
+                                    x => x.Teacher
+                                )
                                 .Where
                                 (
                                     x => x.TeacherId == teacherId
                                 )
+                                .AsNoTracking()
                                 .ToListAsync();
 
             return Class;
         }
 
-        public async Task<List<Class>> GetAllClasses(int skip , int take)
+        public async Task<List<Class>> GetAllClasses(int skip, int take)
         {
             var Class = await _context.Classes
                                 .Include
@@ -40,6 +45,8 @@ namespace Manager.Infra.Repositories
                                 )
                                 .Skip(skip)
                                 .Take(take)
+                                .OrderByDescending(c => c.Price)
+                                .AsNoTracking()
                                 .ToListAsync();
 
             return Class;

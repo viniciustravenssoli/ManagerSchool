@@ -3,7 +3,7 @@ using System.Linq;
 using Manager.Domain.Entities;
 using Manager.Infra.Context;
 
-namespace Sistema_Escolar.Validations
+namespace Manager.API.Util
 {
     public class CpfEmUso : ValidationAttribute
     {

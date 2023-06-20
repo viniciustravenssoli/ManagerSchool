@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Manager.Domain.Entities;
 using Manager.Services.DTO;
-using Sistema_Escolar.Validations;
 
 namespace Manager.API.ViewModels
 {

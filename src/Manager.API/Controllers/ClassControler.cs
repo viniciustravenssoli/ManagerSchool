@@ -9,6 +9,7 @@ using Manager.API.ViewModels.ClaS;
 using Manager.Core.Exceptions;
 using Manager.Services.DTO;
 using Manager.Services.Interface;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace Manager.API.Controllers
 {
     //[Authorize]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Reitor" )]
     public class ClassController : ControllerBase
     {
         private readonly IClassService _classService;
@@ -30,6 +32,7 @@ namespace Manager.API.Controllers
         [HttpPost]
         [Route("/api/v1/classes/create")]
 
+
         public async Task<IActionResult> Create([FromBody] CreateClassViewModel createclassViewModel)
         {
             try
@@ -39,7 +42,7 @@ namespace Manager.API.Controllers
 
                 return Ok(new ResultViewModel
                 {
-                    Message = "Class created with success",
+                    Message = "Class created with success",   
                     Success = true,
                     Data = classCreated
                 });

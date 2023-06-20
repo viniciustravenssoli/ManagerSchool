@@ -13,7 +13,6 @@ namespace Manager.Services.DTO
         public int ClassCode { get; set; }
         public double Price { get; set; }
         public DateTime Schedule { get; set; }
-        public DateTime CreatedAt { get; set; }
         public long TeacherId { get; set; }
         public Teacher Teacher { get; set; }
     }
