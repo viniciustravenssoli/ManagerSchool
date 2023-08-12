@@ -32,6 +32,7 @@ namespace Manager.Domain.Entities
             //Validate();
         }
 
+
         // public static implicit operator Teacher(Class v)
         // {
         //     throw new NotImplementedException();

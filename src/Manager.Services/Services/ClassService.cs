@@ -48,9 +48,7 @@ namespace Manager.Services.Services
             var clas = _mapper.Map<Class>(classDTO);
             //student.Validate();
 
-            var classCreated = await _classRepository.Createe(clas);
-
-            //removing object cycling 
+            var classCreated = await _classRepository.Create(clas);
             classCreated.Teacher = teacherExists;
 
             return _mapper.Map<ClassDTO>(classCreated);

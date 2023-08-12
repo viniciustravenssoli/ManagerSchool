@@ -17,7 +17,7 @@ namespace Manager.API.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Reitor" )]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Reitor" )]
     public class ClassController : ControllerBase
     {
         private readonly IClassService _classService;
