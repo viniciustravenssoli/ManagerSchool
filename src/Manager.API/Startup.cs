@@ -102,6 +102,10 @@ namespace Manager.API
                 cfg.CreateMap<Class, ClassDTO>().ReverseMap();
                 cfg.CreateMap<CreateClassViewModel, ClassDTO>().ReverseMap();
                 cfg.CreateMap<UpdateClassViewModel, ClassDTO>().ReverseMap();
+
+                cfg.CreateMap<Boletim, BoletimDTO>().ReverseMap();
+                cfg.CreateMap<CreateBoletimViewModel, BoletimDTO>().ReverseMap();
+                
             });
 
             services.AddSingleton(AutoMapperConfig.CreateMapper());
@@ -123,6 +127,9 @@ namespace Manager.API
 
             services.AddScoped<IClassRepository, ClassRepository>();
             services.AddScoped<IClassService, ClassService>();
+
+            services.AddScoped<IBoletimRepository, BoletimRepository>();
+            services.AddScoped<IBoletimService, BoletimService>();
 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
@@ -154,6 +161,7 @@ namespace Manager.API
                     new string[] {}
                     }
                 });
+                var xmlApiPath = System.IO.Path.Combine(AppContext.BaseDirectory, $"{typeof(Startup).Assembly.GetName().Name}.xml");
             });
 
 

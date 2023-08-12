@@ -29,6 +29,8 @@ namespace Manager.Infra.Context
 
         public virtual DbSet<Class> Classes { get; set; }
 
+        public virtual DbSet<Boletim> Boletins { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
